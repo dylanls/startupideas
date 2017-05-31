@@ -204,7 +204,7 @@
 		<div class="hidden" id="submit">
 			<h3>Submit Startup Idea</h3>
 			<form method = "post" id="submitform" action="submit.php" onsubmit="return verifySubmission(this)">
-					<p>We are disrupting the <input type="text" name="industry" placeholder="compression" maxlength="25"> industry by <br> <input type="text" name="pitch" placeholder="shrinking everyone's files." size="60" maxlength="60"></p>
+					<p>We are disrupting the <input type="text" name="industry" placeholder="compression" maxlength="25"> industry by <br> <input type="text" name="pitch" placeholder="shrinking everyone's files." size="60" maxlength="110"></p>
 
 					<input type = "submit" value = "Submit"/>
 			</form>
