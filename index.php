@@ -52,31 +52,37 @@
 	</head>
 <body>
 <style>
-.demo-card-wide.mdl-card {
+body {
+  background-color: #D7DCE6;
+}
+.maintitle {
+	text-align: center;
+}
+.idea-card-wide.mdl-card {
 	width: 256px;
 	height: 256px;
 	background: #7a88a7;
 }
-.demo-card > .mdl-card__title {
+.idea-card > .mdl-card__title {
 	color: #fff;
 	background: #2d2f3c;
 	height: 150px;
 }
-.demo-title{
+.idea-title{
 	font-size: 16px;
 	font-family: 'Roboto';
 }
-.demo-name{
+.idea-name{
 	font-size: 14px;
 	font-family: 'Roboto';
 	font-style: italic;
 }
-.demo-date{
-	font-size: 12px;
+.idea-date{
+	font-size: 10px;
 	font-family: 'Roboto';
 
 }
-.demo-title-bold{
+.idea-title-bold{
 	font-size: 16px;
 	font-weight: bold;
 	font-family: 'Roboto';
@@ -89,50 +95,35 @@
     float: left;
 }
 .two {
-    width: 256%;
+    width: 256px;
     height: 256px;
 
 
 }
-.thumbup { color: #87e37c; }
-.thumbdown { color: #e37c7c; }
+.idea-thumbup { color: #87e37c; }
+.idea-thumbdown { color: #e37c7c; }
 </style>
+<?php
+	function createCard($industry, $pitch, $date, $author, $score) {
+		echo '	<div class="mdl-card idea-card-wide mdl-shadow--4dp one" id="left">
+							<div class="mdl-card__actions idea-card">
+								<div class="mdl-card__title mdl-shadow--2dp">
+				 		 			<p class="idea-title"> WE ARE DISRUPTING THE <span class="idea-title-bold">' . strtoupper($industry) .
+									'</span> INDUSTRY BY <span class="idea-title-bold">' . strtoupper($pitch) . '</span></p>
+								</div>
+							</div>
+							<div class="mdl-card__supporting-text idea-name"> By ' . $author .
+							'<span class="idea-date"> (' . $date . ') </span>
+							</div>
+							<div class="mdl-card__actions mdl-card--border idea-card-wide" >
+								<b class="idea-title"> +' . $score . '</b>
+								<button class="mdl-button idea-thumbup mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_up</i></button>
+								<button class="mdl-button idea-thumbdown mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_down</i></button>
+							</div>
+						</div>';
+					}
+?>
 
-	<div class="mdl-card demo-card-wide mdl-shadow--4dp one" id="left">
-			<div class="mdl-card__actions demo-card">
-				<div class="mdl-card__title mdl-shadow--2dp">
-		 		 <p class="demo-title">WE ARE DISRUPTING THE <span class="demo-title-bold">PLACEHOLDER</span> INDUSTRY BY <span class="demo-title-bold">PLACEHOLDING THIS CARD WHILE DYLAN LEARNS CSS</span></p>
-		 	 	</div>
-			</div>
-
-			<div class="mdl-card__supporting-text demo-name">
-    		By John Smith <span class="demo-date"> (2017-05-30 21:51:59) </span>
-  		</div>
-			<div class="mdl-card__actions mdl-card--border demo-card-wide" >
-				<b class="demo-title">+250</b>
-    		<button class="mdl-button thumbup mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_up</i></button>
-				<button class="mdl-button thumbdown mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_down</i></button>
-			</div>
-
- </div>
- <br>
- <div class="mdl-card demo-card-wide mdl-shadow--4dp two" id="right">
- 		<div class="mdl-card__actions demo-card">
- 			<div class="mdl-card__title mdl-shadow--2dp">
- 			 <p class="demo-title">WE ARE DISRUPTING THE <span class="demo-title-bold">PLACEHOLDER</span> INDUSTRY BY <span class="demo-title-bold">PLACEHOLDING THIS CARD WHILE DYLAN LEARNS CSS</span></p>
- 			</div>
- 		</div>
-
- 		<div class="mdl-card__supporting-text demo-name">
- 			By John Smith <span class="demo-date"> (2017-05-30 21:51:59) </span>
- 		</div>
- 		<div class="mdl-card__actions mdl-card--border demo-card-wide" >
- 			<b class="demo-title">+250</b>
- 			<button class="mdl-button thumbup mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_up</i></button>
- 			<button class="mdl-button thumbdown mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_down</i></button>
- 		</div>
-
- </div>
 <br>
 	<script type="text/javascript">
 			var displayLogin = true;
@@ -204,14 +195,14 @@
 		<div class="hidden" id="submit">
 			<h3>Submit Startup Idea</h3>
 			<form method = "post" id="submitform" action="submit.php" onsubmit="return verifySubmission(this)">
-					<p>We are disrupting the <input type="text" name="industry" placeholder="compression" maxlength="25"> industry by <br> <input type="text" name="pitch" placeholder="shrinking everyone's files." size="60" maxlength="110"></p>
+					<p>We are disrupting the <input type="text" name="industry" placeholder="compression" maxlength="25"> industry by <br> <input type="text" name="pitch" placeholder="shrinking everyone's files." size="60" maxlength="90"></p>
 
 					<input type = "submit" value = "Submit"/>
 			</form>
 
 		</div>
 	</div>
-		<h3>User-Submitted Startup Ideas </h3>
+		<h3 class="maintitle">User-Submitted Startup Ideas </h3>
 		<?php
 				//select * from pitches where user in(select user from pitches order by date) order by date desc;
 				$query = 'SELECT * FROM pitches WHERE user IN(SELECT user FROM pitches ORDER BY date) ORDER BY date DESC;';
@@ -220,7 +211,8 @@
 					while($pitches = mysqli_fetch_assoc($result)){
 						$query = 'SELECT displayname from users WHERE userid = ' . $pitches["user"] . ';';
 						$dispname = mysqli_fetch_assoc(mysqli_query($db, $query));
-						echo "By " . $dispname['displayname'] . "<p>             We are disrupting the <b>" . $pitches["industry"]. "</b> industry by <b>" . $pitches["pitch"]. "</b>  </p>               <i>(" . $pitches[date] . ") </i><br> <hr> <br>";
+						createCard($pitches["industry"], $pitches["pitch"], $pitches["date"], $dispname["displayname"], 0);
+
 					}
 				}
 
