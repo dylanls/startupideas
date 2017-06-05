@@ -1,8 +1,8 @@
 <?php
   session_start();
   include("config.php");
-  if(!isset($_SESSION['login_username']) || !isset($_SESSION['login_userid'])) { exit();
-                                                                               }
+  if(!isset($_SESSION['login_username']) || !isset($_SESSION['login_userid'])) exit();
+                                                                               
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     $userID = $_SESSION['login_userid'];
     $submittedIndustry = mysqli_real_escape_string($db, $_POST['industry']);
