@@ -5,7 +5,7 @@
     $userID = $_SESSION['login_userid'];
     $submittedIndustry = mysqli_real_escape_string($db, $_POST['industry']);
     $submittedPitch = mysqli_real_escape_string($db, $_POST['pitch']);
-
+    //TODO CHECK FOR LOGIN
 
 
     $query = 'INSERT INTO pitches (user, industry, pitch, date) VALUES (' . $userID . ', "' . $submittedIndustry .  '", "' . $submittedPitch .  '", ' . 'NOW() );';

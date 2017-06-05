@@ -31,6 +31,7 @@
 			//there is one user with said login, so we can assume you are it
 			$_SESSION['login_username'] = $curUserName;
 			$_SESSION['login_userid'] = $uid['userid'];
+			//FIGURE OUT WHAT WE HAVE VOTED ON
 		}
 		else if ($query && !password_verify($curPassword, $hash['pwdhash'])) {
 			$_SESSION['login_error'] = "Invalid Login name or Password";
@@ -54,6 +55,10 @@
 <style>
 body {
   background-color: #D7DCE6;
+}
+.idealist {
+	margin-left:auto;
+	margin-right:auto;
 }
 .maintitle {
 	text-align: center;
@@ -88,24 +93,54 @@ body {
 	font-family: 'Roboto';
 }
 
-.one {
-    width: 256px;
-    height: 256px;
-		margin: 20px;
-    float: left;
-}
-.two {
-    width: 256px;
-    height: 256px;
-
+.cardelement {
+		height: 256px;
+		width: 256px;
 
 }
+
 .idea-thumbup { color: #87e37c; }
 .idea-thumbdown { color: #e37c7c; }
+
+.float_center {
+  float: right;
+
+  position: relative;
+  left: -50%; /* or right 50% */
+  text-align: left;
+}
+.float_center > .child {
+  position: relative;
+  left: 50%;
+
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+
+}
+ul li {
+  float: left;
+  list-style-type: none;
+  margin: 0 25px;
+	margin-bottom: 25px;
+}
 </style>
+<script type="text/javascript">
+	function Vote(postid) {
+		var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("score-" + postid).innerHTML = "+" + this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "vote.php?id=" + postid, true);
+        xmlhttp.send();
+	}
+</script>
 <?php
-	function createCard($industry, $pitch, $date, $author, $score) {
-		echo '	<div class="mdl-card idea-card-wide mdl-shadow--4dp one" id="left">
+	function createCard($industry, $pitch, $date, $author, $score, $postid) {
+		echo '<li>	<div class="mdl-card idea-card-wide mdl-shadow--4dp cardelement" id="' . $postid . '">
 							<div class="mdl-card__actions idea-card">
 								<div class="mdl-card__title mdl-shadow--2dp">
 				 		 			<p class="idea-title"> WE ARE DISRUPTING THE <span class="idea-title-bold">' . strtoupper($industry) .
@@ -116,11 +151,11 @@ body {
 							'<span class="idea-date"> (' . $date . ') </span>
 							</div>
 							<div class="mdl-card__actions mdl-card--border idea-card-wide" >
-								<b class="idea-title"> +' . $score . '</b>
-								<button class="mdl-button idea-thumbup mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_up</i></button>
+								<b class="idea-title" id="score-' . $postid . '"> +' . $score . '</b>
+								<button class="mdl-button idea-thumbup mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp" onclick="Vote(' . $postid .')">  <i class="material-icons">thumb_up</i></button>
 								<button class="mdl-button idea-thumbdown mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-shadow--2dp">  <i class="material-icons">thumb_down</i></button>
 							</div>
-						</div>';
+						</div> </li>';
 					}
 ?>
 
@@ -203,6 +238,8 @@ body {
 		</div>
 	</div>
 		<h3 class="maintitle">User-Submitted Startup Ideas </h3>
+		<div class="float_center">
+			<ul class="child">
 		<?php
 				//select * from pitches where user in(select user from pitches order by date) order by date desc;
 				$query = 'SELECT * FROM pitches WHERE user IN(SELECT user FROM pitches ORDER BY date) ORDER BY date DESC;';
@@ -211,13 +248,13 @@ body {
 					while($pitches = mysqli_fetch_assoc($result)){
 						$query = 'SELECT displayname from users WHERE userid = ' . $pitches["user"] . ';';
 						$dispname = mysqli_fetch_assoc(mysqli_query($db, $query));
-						createCard($pitches["industry"], $pitches["pitch"], $pitches["date"], $dispname["displayname"], 0);
+						createCard($pitches["industry"], $pitches["pitch"], $pitches["date"], $dispname["displayname"], $pitches["score"], $pitches["postid"]);
 
 					}
 				}
-
-
 		 ?>
+	 </div>
+		 </div>
 	<script type="text/javascript">
 		if(<?php echo loggedin(); ?>){
 			//change visiblity of elements based on login state
